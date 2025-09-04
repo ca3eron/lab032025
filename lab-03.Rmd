@@ -86,12 +86,12 @@ How many observations are there in the data set?
 ```{r pivoting}
 ## Uncomment and complete the following code
 
-#staff_long <- ___ %>%
-#  ___(
-#    cols = ____, 
-#    names_to = "_____",
-#    values_to = "percent"
-#    )
+staff_long <- staff %>%
+  pivot_longer(
+    cols = 2:12, 
+    names_to = "year",
+     values_to = "percent"
+     )
 
 ```
 
@@ -100,8 +100,12 @@ How many observations are there in the data set?
 
 ```{r dot-plot}
 # Write your code for Exercise 3 here
-
-
+ view(staff_long)
+ ggplot(data = staff_long,
+        mapping = aes(x = year, 
+                      y = percent, 
+                     colour = faculty_type)) +
+    geom_point() 
 
 ```
 
@@ -109,8 +113,13 @@ How many observations are there in the data set?
 
 ```{r bad-line-plot}
 # Write your code for Exercise 4 here
+ggplot(data = staff_long,
+       mapping = aes(x = year, 
+                     y = percent, 
+                     colour = faculty_type)) +
+  geom_line() 
 
-
+#This doesn't work until after exercise 5 as the staff_long variable is a character not a numeric so therefore you can't visualise progression over dates as there is no year inbetween 1975 and 1989 for example. This is why indrxing didnt't work when pivoting.
 
 ```
 
@@ -119,15 +128,19 @@ How many observations are there in the data set?
 ```{r mutate-year}
 ## Uncomment and complete the following code
 
-#staff_long <- staff_long %>%
-#  mutate(year = ______(year))
+staff_long <- staff_long %>%
+  mutate(year = as.numeric(year))
 ```
 
 
 ```{r working-line-plot}
 # Write your code for Exercise 5 here
-
-
+ view(staff_long)
+ ggplot(data = staff_long,
+        mapping = aes(x = year, 
+                      y = percent, 
+                     colour = faculty_type)) +
+    geom_point() 
 
 ```
 
@@ -135,9 +148,18 @@ How many observations are there in the data set?
 
 ```{r better-line-plot}
 # Write your code for Exercise 6 here
-
-
-
+ggplot(data = staff_long,
+       mapping = aes(x = year, 
+                     y = percent, 
+                     colour = faculty_type,
+                     )) +
+  labs(
+    x = "year data was recorded",
+    y = "percentage of workers who are in a particular emplopyment contract",
+    title = "percentage of employees in respective employment contracts by year",
+    subtitle = "Data contains years  1975-2011"
+  ) +
+  geom_line()
 
 ```
 
@@ -145,17 +167,34 @@ How many observations are there in the data set?
 
 _Write below your ideas for adapting the line plot_
 
-* Idea 1
-* Idea 2
-* Idea 3
-* ...
+* You could make the part-time line coloured and the rest b+w to make it stand out visually
+* Include how number of workers rather than percentage, it may be that they require more staff as the business grows etc rather than them changing the employment contract of firing other employment types.
+* Calculate the difference/range between the lowest point an highest point of beginning/end 
+* Pay 
+* Materinty leave, could influence people going part-time
+* Gender
+* Age
 
 
 ## Exercise 8
 
 ```{r implement-Ex7}
 # Write your code for Exercise 8 here
-
+# Write your code for Exercise 6 here
+ggplot(data = staff_long,
+       mapping = aes(x = year, 
+                     y = percent, 
+                     colour = faculty_type,
+                     )) +
+  labs(
+    x = "year data was recorded",
+    y = "percentage of workers who are in a particular emplopyment contract",
+    title = "percentage of employees in respective employment contracts by year",
+    subtitle = "Data contains years  1975-2011"
+  ) +
+  geom_line()+
+   scale_color_manual(values = c("Part-Time Faculty" = "blue", "Full-Time Tenured Faculty" = "black", "Full-Time Tenure-Track Faculty" = "black","Full-Time Non-Tenure-Track Faculty" = "black", "Full-Time Non-Tenure-Track Faculty" = "black", "Graduate Student Employees
+" = "black"))
 
 
 ```
